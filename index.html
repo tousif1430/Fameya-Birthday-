@@ -534,6 +534,110 @@
       transform: translateY(-2px);
     }
 
+    /* SHARED POP-UP MODAL STYLES */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 18, 23, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 520px;
+      border-radius: var(--radius-lg);
+      padding: 44px 34px 38px;
+      border: 1px solid var(--border-soft);
+      box-shadow: 0 25px 60px rgba(18, 18, 23, 0.18);
+      text-align: center;
+      transform: translateY(20px) scale(0.96);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      background-color: var(--blush-light);
+      color: #D65A7C;
+      border-radius: 50px;
+      border: 1px solid var(--border-soft);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.3rem;
+      font-weight: 400;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+    }
+
+    .modal-paragraph-box {
+      font-size: 1.04rem;
+      line-height: 1.8;
+      color: #3E3B47;
+      text-align: left;
+      margin-bottom: 30px;
+      padding: 18px 20px;
+      background: var(--blush-light);
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(241, 167, 188, 0.6);
+      max-height: 280px;
+      overflow-y: auto;
+    }
+
+    .modal-simple-subtext {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+      font-weight: 400;
+    }
+
+    .modal-next-btn {
+      background: var(--text-dark);
+      color: #FFFFFF;
+      border: none;
+      padding: 14px 44px;
+      border-radius: 50px;
+      font-size: 0.98rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(18, 18, 23, 0.15);
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-next-btn:hover {
+      background: #2D2C38;
+      transform: translateY(-2px);
+      box-shadow: 0 14px 28px rgba(18, 18, 23, 0.22);
+    }
+
     /* Story Wrapper */
     .story-wrapper {
       display: none;
@@ -754,10 +858,46 @@
       .candle-card { padding: 36px 20px; }
       .letter-card { padding: 36px 24px; }
       .section-title { font-size: 2.2rem; }
+      .modal-card { padding: 36px 20px 30px; }
     }
   </style>
 </head>
 <body>
+
+  <!-- ============================================== -->
+  <!-- ENTRY POP-UP STEP 1: WELCOME MODAL             -->
+  <!-- ============================================== -->
+  <div class="modal-overlay active" id="welcomeModal">
+    <div class="modal-card">
+      <div class="modal-tag">🤍</div>
+      <h3 class="modal-title">Assalamualaikum ✨</h3>
+
+      <!-- BUTTON: NEXT TO PARAGRAPH -->
+      <button class="modal-next-btn" id="welcomeNextBtn">
+         &rarr;
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- ENTRY POP-UP STEP 2: PARAGRAPH MODAL           -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="entryParagraphModal">
+    <div class="modal-card">
+      <div class="modal-tag"> 💌</div>
+      <!-- APNA ENTRY PARAGRAPH YAHA LIKHO -->
+      <div class="modal-paragraph-box">
+        <p>
+          <!-- Yaha aap apna entry paragraph likh sakte ho: -->
+          11/11/2006 Ajj Ke Din Duniya mea Eak Ayse shaks ka janm Hua Joo Aage jako Mere Zindagi Ka Most Favourite Shaks Baan Gayi😅
+      </div>
+
+      <!-- BUTTON: OPEN LOCK SCREEN -->
+      <button class="modal-next-btn" id="openMainPageBtn">
+        &rarr;
+      </button>
+    </div>
+  </div>
 
   <!-- Floating Ambient Petals -->
   <div class="ambient-petals" id="petalContainer"></div>
@@ -765,7 +905,7 @@
   <!-- Passcode Login Gatekeeper -->
   <div class="lock-screen" id="lockScreen">
     <div class="lock-card">
-      <div class="lock-tag">Assalamualaikum🤍</div>
+      <div class="lock-tag">🤍</div>
       <h1 class="lock-title">A Birthday Wish<br>From("App Ka Taaqub karne wala")</h1>
       <p class="lock-subtitle">Date Of Birth Likho Niche</p>
 
@@ -895,9 +1035,9 @@
           <div class="polaroid-card">
             <div class="polaroid-img-box">
               <span class="photo-icon">🫰🏻</span>
-              <p class="photo-placeholder-txt">Tumna Kitte Complements Diye to bhi kam ich Jii</p>
+              <p class="photo-placeholder-txt">Tumna Kitte Complements Diye to bhi kam ich </p>
             </div>
-            <div class="polaroid-caption">Tumea mere chand ka tukda kako boltam na kin vo sahi nai (tumea mere puri duniya Jii🫠) </div>
+            <div class="polaroid-caption">Tumea mere chand ka tukda kako boltam na kin vo sahi nai (tumea mere puri duniya🫠) </div>
           </div>
         </div>
       </section>
@@ -925,7 +1065,7 @@
           <div class="reason-pill">
             <span class="reason-num">03</span>
             <h4 class="reason-title">Tumhara Cuteness 😍</h4>
-            <p class="reason-desc">Chand ke Tukde kea naad rehte ji tumea, tumna ye chand ka tukde ka dialogue boor maar dalko rehta kin, tumea sahi mera chand ka tukda ji</p>
+            <p class="reason-desc">Chand ke Tukde kea naad rehte ji tumea.</p>
           </div>
         </div>
       </section>
@@ -939,7 +1079,49 @@
     </div>
   </div>
 
+  <!-- ============================================== -->
+  <!-- 3. POP-UP CARD AFTER "CONTINUE KARO" BUTTON    -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="customModal">
+    <div class="modal-card">
+      <div class="modal-tag">Ek Khaas Baat ♡</div>
+      <h3 class="modal-title">Just For You</h3>
+      
+      <div class="modal-paragraph-box">
+        <p>
+          <!-- Yaha continue button ke baad wala text likh sakte ho: -->
+          11/11/2006 Kane Se Leko Ajj Tak ,Allah Tumhare Utta Khubsurat , Haseen Ladki Nai Banaya Ji🤭
+Meri har dua mein ek khwahish hoti hai, aur har khwahish mein bas tum.😆
+Tume meri taqdeer mein ho ya nahi, ye toh nahi malum  magar meri har dua mein Tum Zaroor ho🙃
+Mera Allah se Eak Hi Dua hai ke ye haseen muskaan tumhare chehre par hamesha bani rahe💌
+      </div>
+
+      <button class="modal-next-btn" id="modalNextBtn">
+        &rarr;
+      </button>
+    </div>
+  </div>
+
   <script>
+    // 0. Two-Step Entry Pop-up Handling
+    const welcomeModal = document.getElementById('welcomeModal');
+    const welcomeNextBtn = document.getElementById('welcomeNextBtn');
+    const entryParagraphModal = document.getElementById('entryParagraphModal');
+    const openMainPageBtn = document.getElementById('openMainPageBtn');
+
+    // Step 1 -> Step 2
+    welcomeNextBtn.addEventListener('click', () => {
+      welcomeModal.classList.remove('active');
+      setTimeout(() => {
+        entryParagraphModal.classList.add('active');
+      }, 200);
+    });
+
+    // Step 2 -> Open DOB Screen
+    openMainPageBtn.addEventListener('click', () => {
+      entryParagraphModal.classList.remove('active');
+    });
+
     // 1. Passcode & Date Entry Handling
     const VALID_CODE = '1111';
     const dobInput = document.getElementById('dobInput');
@@ -1027,18 +1209,26 @@
     candleWrapper.addEventListener('click', extinguishCandle);
     blowBtn.addEventListener('click', extinguishCandle);
 
-    // 3. Continue Button
+    // 3. Continue Button opens Pop-up Modal
     const continueBtn = document.getElementById('continueBtn');
+    const customModal = document.getElementById('customModal');
+    const modalNextBtn = document.getElementById('modalNextBtn');
     const storyWrapper = document.getElementById('storyWrapper');
 
     continueBtn.addEventListener('click', () => {
+      customModal.classList.add('active');
+    });
+
+    // 4. Modal "Next" Button closes modal and scrolls to story
+    modalNextBtn.addEventListener('click', () => {
+      customModal.classList.remove('active');
       storyWrapper.classList.add('revealed');
       setTimeout(() => {
         storyWrapper.scrollIntoView({ behavior: 'smooth' });
-      }, 150);
+      }, 250);
     });
 
-    // 4. Ambient Petals
+    // 5. Ambient Petals
     const petalContainer = document.getElementById('petalContainer');
     const petalCount = 18;
     for (let i = 0; i < petalCount; i++) {
